@@ -17,13 +17,37 @@ enum Fuente: String, CaseIterable, Identifiable {
 
 class ViewModel: ObservableObject {
     @Published var kanji = "学"
-
-    @AppStorage("verKanji") var verKanji = true {
+    
+    @AppStorage("verKanji") var verKanji = false {
         didSet {
             verKanjiTemporal = verKanji
         }
     }
     @Published var verKanjiTemporal = false
-
+    
     @AppStorage("fuenteSeleccionada") var fuenteSeleccionada = Fuente.cursiva
+    
+    func nuevoKanji() {
+        verKanjiTemporal = false
+        kanjiAleatorio()
+    }
+    
+    func todoVisible() -> Bool {
+        return (verKanji || verKanjiTemporal) //&& (verRomaji || verRomajiTemporal)
+    }
+    
+    private var kanji_anterior: String!
+
+    func kanjiAleatorio() {
+
+        let kanjis = ["本", "川", "山"]
+
+        kanji_anterior = kanji
+        repeat {
+            let aleatorio = kanjis.randomElement()
+
+            kanji = aleatorio!
+            //romaji = aleatorio.romaji
+        } while(kanji == kanji_anterior)
+    }
 }

@@ -26,6 +26,11 @@ struct Kanji: View {
             .background(Color("Fondo"))
             .cornerRadius(10.0)
             .gesture(TapGesture().onEnded { _ in
+                if vm.todoVisible() {
+                    vm.nuevoKanji()
+                } else {
+                    vm.verKanjiTemporal = true
+                }
             })
     }
 
